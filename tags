@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	makefile	/^CC = g++$/;"	m
+COMPILER_FLAGS	makefile	/^COMPILER_FLAGS = -Wall -g$/;"	m
+Game	Game.cc	/^Game::Game()$/;"	f	class:Game
+Game	Game.hpp	/^class Game$/;"	c
+LINKER_FLAGS	makefile	/^LINKER_FLAGS = -lSDL2$/;"	m
+OBJS	makefile	/^OBJS = main.cc Game.cc$/;"	m
+OBJ_NAME	makefile	/^OBJ_NAME = main $/;"	m
+clean	Game.cc	/^void Game::clean()$/;"	f	class:Game
+game	main.cc	/^Game *game = NULL;$/;"	v
+handle_events	Game.cc	/^void Game::handle_events()$/;"	f	class:Game
+init	Game.cc	/^void Game::init(const char* title, int x_position, int y_position, int width, int height, bool full_screen)$/;"	f	class:Game
+is_running	Game.hpp	/^  bool is_running;$/;"	m	class:Game
+main	main.cc	/^int main(int argc, char const** argv)$/;"	f
+render	Game.cc	/^void Game::render()$/;"	f	class:Game
+renderer	Game.hpp	/^  SDL_Renderer *renderer;$/;"	m	class:Game
+running	Game.hpp	/^  bool running() { return is_running; }$/;"	f	class:Game
+update	Game.cc	/^void Game::update()$/;"	f	class:Game
+window	Game.hpp	/^  SDL_Window *window;$/;"	m	class:Game
+~Game	Game.cc	/^Game::~Game()$/;"	f	class:Game

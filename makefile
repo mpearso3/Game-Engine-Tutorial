@@ -21,3 +21,6 @@ all: $(OBJS)
 
 clean:
 	rm $(OBJ_NAME)
+
+tags: $(SRCS) makefile
+	-ctags -R
