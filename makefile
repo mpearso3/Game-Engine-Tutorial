@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cc Game.cc
+OBJS = main.cc Game.cc TextureManager.cc GameObject.cc
 
 #CC specifies which compiler we're using
 CC = g++
@@ -10,7 +10,7 @@ COMPILER_FLAGS = -Wall -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
 # -l means we are linking the SDL2 library
-LINKER_FLAGS = -lSDL2
+LINKER_FLAGS = -lSDL2 -lSDL2_image
 
 #OBJ_NAME specifies the naem of our executable
 OBJ_NAME = main 

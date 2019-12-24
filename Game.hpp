@@ -1,5 +1,9 @@
 #pragma once
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+//#include "SDL2/SDL_ttf.h"
+//#include "SDL2/SDL_mixer.h"
+
 #include <iostream>
 
 class Game
@@ -19,6 +23,7 @@ public:
   bool running() { return is_running; }
 
 private:
+  int counter;
   bool is_running;
   SDL_Window *window;
   SDL_Renderer *renderer;
