@@ -22,9 +22,10 @@ public:
 
   bool running() { return is_running; }
 
+  static SDL_Renderer* renderer;
+
 private:
   int counter;
   bool is_running;
   SDL_Window *window;
-  SDL_Renderer *renderer;
 };

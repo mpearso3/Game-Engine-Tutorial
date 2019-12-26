@@ -1,9 +1,13 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
+#include "Map.hpp"
 
 GameObject* player;
 GameObject* enemy;
+Map* map;
+
+SDL_Renderer* Game::renderer = NULL;
 
 Game::Game()
 {
@@ -25,14 +29,18 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
     window = SDL_CreateWindow(title, x_position, y_position, width, height, flags);
     if(window) {
       std::cout << "Window created!" << std::endl;
-      // else throw exception
+    }
+    else {
+      std::cout << "ERROR, Game::init window not created" << std::endl;
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if(renderer) {
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
       std::cout << "Renderer created!" << std::endl;
-      // else throw exception
+    }
+    else {
+      std::cout << "ERROR, Game::init renderer not created" << std::endl;
     }
 
     is_running = true;
@@ -41,8 +49,9 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
     is_running = false;
   }
 
-  player = new GameObject("assets/player.png", renderer, 0, 0);
-  enemy = new GameObject("assets/player.png", renderer, 50, 50);
+  player = new GameObject("assets/player.png", 0, 0);
+  enemy = new GameObject("assets/player.png", 50, 50);
+  map = new Map();
 }
 
 void Game::handle_events()
@@ -69,6 +78,7 @@ void Game::update()
 void Game::render()
 {
   SDL_RenderClear(renderer);
+  map->draw_map();
   player->Render();
   enemy->Render();
   SDL_RenderPresent(renderer);
