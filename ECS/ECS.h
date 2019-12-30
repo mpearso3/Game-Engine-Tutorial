@@ -53,14 +53,16 @@ private:
 public:
   void update()
   {
-    for(auto& c : components) {
-      c->update();
-    }
-    for(auto& c : components) {
-      c->draw();
+    for(auto& component : components) {
+      component->update();
     }
   }
-  void draw() {}
+  void draw()
+  {
+    for(auto& component : components) {
+      component->draw();
+    }
+  }
   bool is_active() const { return active; }
   void destroy() { active = false; }
 
@@ -70,19 +72,31 @@ public:
     return component_bitset[get_component_type_id<T>()];
   }
 
+  // DEBUG_MP - used to print out mArgs
+  template <typename T, typename... TArgs>
+  void print_args(TArgs&&... mArgs)
+  {
+    std::cout << "mArgs " << std::endl; 
+    using expander = int[];
+    (void)expander{0, (void(std::cout << ',' << std::forward<TArgs>(mArgs)), 0)...};
+    std::cout << std::endl;
+  }
+
   template <typename T, typename... TArgs> 
   T& add_component(TArgs&&... mArgs)
   {
-    T* c(new T(std::forward<TArgs>(mArgs)...));
-    c->entity = this;
-    std::unique_ptr<Component> uPtr(c);
+    print_args<T>(std::forward<TArgs>(mArgs)...);
+
+    T* component(new T(std::forward<TArgs>(mArgs)...));
+    component->entity = this;
+    std::unique_ptr<Component> uPtr(component);
     components.emplace_back(std::move(uPtr));
 
-    component_array[get_component_type_id<T>()] = c;
+    component_array[get_component_type_id<T>()] = component;
     component_bitset[get_component_type_id<T>()] = true;
 
-    c->init();
-    return *c;
+    component->init();
+    return *component;
   }
 
   template<typename T> 
