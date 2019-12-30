@@ -7,7 +7,7 @@
 class SpriteComponent : public Component
 {
 private:
-  PositionComponent* position;
+  TransformComponent* transform;
   SDL_Texture* texture;
   SDL_Rect source_rectangle, destination_rectangle;
 
@@ -23,7 +23,7 @@ public:
   }
   void init() override
   {
-    position = &entity->get_component<PositionComponent>();
+    transform = &entity->get_component<TransformComponent>();
 
     source_rectangle.x = source_rectangle.y = 0;
     source_rectangle.w = source_rectangle.h = 32;
@@ -33,8 +33,8 @@ public:
   }
   void update() override
   {
-    destination_rectangle.x = position->x();
-    destination_rectangle.y = position->y();
+    destination_rectangle.x = (int)transform->position.x;
+    destination_rectangle.y = (int)transform->position.y;
   }
   void draw() override
   {

@@ -2,6 +2,7 @@
 #include "TextureManager.hpp"
 #include "Map.hpp"
 #include "ECS/Components.h"
+#include "Vector2D.h"
 
 Map* map;
 Manager manager;
@@ -52,7 +53,7 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
 
   map = new Map();
 
-  player.add_component<PositionComponent>();
+  player.add_component<TransformComponent>();
   player.add_component<SpriteComponent>("assets/player.png");
 }
 
@@ -76,7 +77,9 @@ void Game::update()
   manager.refresh();
   manager.update();
 
-  if(player.get_component<PositionComponent>().x() > 100) {
+  player.get_component<TransformComponent>().position.add(Vector2D(10, 0));
+
+  if(player.get_component<TransformComponent>().position.x > 100) {
     player.get_component<SpriteComponent>().set_texture("assets/dirt.png");
   }
 }
