@@ -3,11 +3,13 @@
 #include "Map.hpp"
 #include "ECS/Components.h"
 #include "Vector2D.h"
+#include "Collision.h"
 
 Map* map;
 Manager manager;
 
 auto& player(manager.add_entity());
+auto& wall(manager.add_entity());
 SDL_Event Game::event;
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -54,9 +56,14 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
 
   map = new Map();
 
-  player.add_component<TransformComponent>();
+  player.add_component<TransformComponent>(2);
   player.add_component<SpriteComponent>("assets/player.png");
   player.add_component<KeyboardController>();
+  player.add_component<ColliderComponent>("player");
+
+  wall.add_component<TransformComponent>(300.0, 300.0, 300, 20, 1);
+  wall.add_component<SpriteComponent>("assets/dirt.png");
+  wall.add_component<ColliderComponent>("wall");
 }
 
 void Game::handle_events()
@@ -88,6 +95,11 @@ void Game::update()
 {
   manager.refresh();
   manager.update();
+
+  if(Collision::AABB(player.get_component<ColliderComponent>().collider, wall.get_component<ColliderComponent>().collider)) {
+    player.get_component<TransformComponent>().scale = 1;
+    std::cout << "wall hit" << std::endl;
+  }
 }
 
 void Game::render()

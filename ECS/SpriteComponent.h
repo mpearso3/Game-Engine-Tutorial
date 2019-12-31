@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components.h"
+#include "../TextureManager.hpp"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
@@ -17,6 +18,11 @@ public:
   {
     set_texture(path);
   }
+  ~SpriteComponent()
+  {
+    SDL_DestroyTexture(texture);
+  }
+
   void set_texture(const char* path)
   {
     texture = TextureManager::LoadTexture(path);
@@ -26,15 +32,15 @@ public:
     transform = &entity->get_component<TransformComponent>();
 
     source_rectangle.x = source_rectangle.y = 0;
-    source_rectangle.w = source_rectangle.h = 32;
-    
-    destination_rectangle.x = destination_rectangle.y = 0;
-    destination_rectangle.w = destination_rectangle.h = 64;
+    source_rectangle.w = transform->width;
+    source_rectangle.h = transform->width;
   }
   void update() override
   {
     destination_rectangle.x = (int)transform->position.x;
     destination_rectangle.y = (int)transform->position.y;
+    destination_rectangle.w = transform->width * transform->scale;
+    destination_rectangle.h = transform->height * transform->scale;
   }
   void draw() override
   {

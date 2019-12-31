@@ -4,8 +4,12 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AABB	Collision.cc	/^bool Collision::AABB(const SDL_Rect& rectangle_a, const SDL_Rect& rectangle_b)$/;"	f	class:Collision
 CC	makefile	/^CC = g++$/;"	m
 COMPILER_FLAGS	makefile	/^COMPILER_FLAGS = -Wall -g -std=c++11$/;"	m
+ColliderComponent	ECS/ColliderComponent.h	/^  ColliderComponent(const char* tag)$/;"	f	class:ColliderComponent
+ColliderComponent	ECS/ColliderComponent.h	/^class ColliderComponent : public Component$/;"	c
+Collision	Collision.h	/^class Collision$/;"	c
 Component	ECS/ECS.h	/^class Component$/;"	c
 Draw	TextureManager.cc	/^void TextureManager::Draw(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination)$/;"	f	class:TextureManager
 Entity	ECS/ECS.h	/^class Entity$/;"	c
@@ -13,19 +17,22 @@ Game	Game.cc	/^Game::Game()$/;"	f	class:Game
 Game	Game.hpp	/^class Game$/;"	c
 GameObject	GameObject.cc	/^GameObject::GameObject(const char* texture_sheet, int x, int y)$/;"	f	class:GameObject
 GameObject	GameObject.hpp	/^class GameObject$/;"	c
+KeyboardController	ECS/KeyboardController.h	/^class KeyboardController : public Component$/;"	c
 LINKER_FLAGS	makefile	/^LINKER_FLAGS = -lSDL2 -lSDL2_image$/;"	m
 LoadTexture	TextureManager.cc	/^SDL_Texture* TextureManager::LoadTexture(const char* filename)$/;"	f	class:TextureManager
 Manager	ECS/ECS.h	/^class Manager$/;"	c
 Map	Map.cc	/^Map::Map()$/;"	f	class:Map
 Map	Map.hpp	/^class Map$/;"	c
-OBJS	makefile	/^OBJS = main.cc Game.cc TextureManager.cc GameObject.cc Map.cc Vector2D.cc$/;"	m
+OBJS	makefile	/^OBJS = main.cc Game.cc TextureManager.cc GameObject.cc Map.cc Vector2D.cc Collision.cc$/;"	m
 OBJ_NAME	makefile	/^OBJ_NAME = main $/;"	m
 Render	GameObject.cc	/^void GameObject::Render()$/;"	f	class:GameObject
 SpriteComponent	ECS/SpriteComponent.h	/^  SpriteComponent(const char* path)$/;"	f	class:SpriteComponent
 SpriteComponent	ECS/SpriteComponent.h	/^class SpriteComponent : public Component$/;"	c
 TextureManager	TextureManager.hpp	/^class TextureManager$/;"	c
-TranformComponent	ECS/TransformComponent.h	/^  TranformComponent()$/;"	f	class:TransformComponent
+TransformComponent	ECS/TransformComponent.h	/^  TransformComponent()$/;"	f	class:TransformComponent
 TransformComponent	ECS/TransformComponent.h	/^  TransformComponent(float x, float y)$/;"	f	class:TransformComponent
+TransformComponent	ECS/TransformComponent.h	/^  TransformComponent(float x, float y, int w, int h, int s)$/;"	f	class:TransformComponent
+TransformComponent	ECS/TransformComponent.h	/^  TransformComponent(int s)$/;"	f	class:TransformComponent
 TransformComponent	ECS/TransformComponent.h	/^class TransformComponent: public Component$/;"	c
 Update	GameObject.cc	/^void GameObject::Update()$/;"	f	class:GameObject
 Vector2D	Vector2D.cc	/^Vector2D::Vector2D()$/;"	f	class:Vector2D
@@ -36,6 +43,7 @@ add	Vector2D.cc	/^Vector2D& Vector2D::add(const Vector2D& vec)$/;"	f	class:Vecto
 add_component	ECS/ECS.h	/^  T& add_component(TArgs&&... mArgs)$/;"	f	class:Entity
 add_entity	ECS/ECS.h	/^  Entity& add_entity()$/;"	f	class:Manager
 clean	Game.cc	/^void Game::clean()$/;"	f	class:Game
+collider	ECS/ColliderComponent.h	/^  SDL_Rect collider;$/;"	m	class:ColliderComponent
 component_array	ECS/ECS.h	/^  ComponentArray component_array;$/;"	m	class:Entity
 component_bitset	ECS/ECS.h	/^  ComponentBitSet component_bitset;$/;"	m	class:Entity
 components	ECS/ECS.h	/^  std::vector<std::unique_ptr<Component>> components;$/;"	m	class:Entity
@@ -52,12 +60,15 @@ draw	ECS/ECS.h	/^  void draw()$/;"	f	class:Manager
 draw_map	Map.cc	/^void Map::draw_map()$/;"	f	class:Map
 entities	ECS/ECS.h	/^  std::vector<std::unique_ptr<Entity>> entities;$/;"	m	class:Manager
 entity	ECS/ECS.h	/^  Entity* entity;$/;"	m	class:Component
+event	Game.cc	/^SDL_Event Game::event;$/;"	m	class:Game	file:
+event	Game.hpp	/^  static SDL_Event event;$/;"	m	class:Game
 game	main.cc	/^Game *game = NULL;$/;"	v
 get_component	ECS/ECS.h	/^  T& get_component() const$/;"	f	class:Entity
 get_component_type_id	ECS/ECS.h	/^inline ComponentID get_component_type_id()$/;"	f
 grass	Map.hpp	/^  SDL_Texture* grass;$/;"	m	class:Map
 handle_events	Game.cc	/^void Game::handle_events()$/;"	f	class:Game
 has_components	ECS/ECS.h	/^  bool has_components() const$/;"	f	class:Entity
+height	ECS/TransformComponent.h	/^  int height = 32;$/;"	m	class:TransformComponent
 init	ECS/ECS.h	/^  virtual void init() {}$/;"	f	class:Component
 init	Game.cc	/^void Game::init(const char* title, int x_position, int y_position, int width, int height, bool full_screen)$/;"	f	class:Game
 is_active	ECS/ECS.h	/^  bool is_active() const { return active; }$/;"	f	class:Entity
@@ -72,13 +83,13 @@ max_components	ECS/ECS.h	/^constexpr std::size_t max_components = 32;$/;"	v
 multiply	Vector2D.cc	/^Vector2D& Vector2D::multiply(const Vector2D& vec)$/;"	f	class:Vector2D
 object_texture	GameObject.hpp	/^  SDL_Texture* object_texture;$/;"	m	class:GameObject
 operator *	Vector2D.cc	/^Vector2D& operator*(Vector2D& v1, const Vector2D& v2)$/;"	f
-operator *=	Vector2D.cc	/^Vector2D& operator*=(const Vector2D& vec)$/;"	f
+operator *=	Vector2D.cc	/^Vector2D& Vector2D::operator*=(const Vector2D& vec)$/;"	f	class:Vector2D
 operator +	Vector2D.cc	/^Vector2D& operator+(Vector2D& v1, const Vector2D& v2)$/;"	f
-operator +=	Vector2D.cc	/^Vector2D& operator+=(const Vector2D& vec)$/;"	f
+operator +=	Vector2D.cc	/^Vector2D& Vector2D::operator+=(const Vector2D& vec)$/;"	f	class:Vector2D
 operator -	Vector2D.cc	/^Vector2D& operator-(Vector2D& v1, const Vector2D& v2)$/;"	f
-operator -=	Vector2D.cc	/^Vector2D& operator-=(const Vector2D& vec)$/;"	f
+operator -=	Vector2D.cc	/^Vector2D& Vector2D::operator-=(const Vector2D& vec)$/;"	f	class:Vector2D
 operator /	Vector2D.cc	/^Vector2D& operator\/(Vector2D& v1, const Vector2D& v2)$/;"	f
-operator /=	Vector2D.cc	/^Vector2D& operator\/=(const Vector2D& vec)$/;"	f
+operator /=	Vector2D.cc	/^Vector2D& Vector2D::operator\/=(const Vector2D& vec)$/;"	f	class:Vector2D
 operator <<	Vector2D.cc	/^std::ostream& operator<<(std::ostream& stream, const Vector2D& vec)$/;"	f
 position	ECS/TransformComponent.h	/^  Vector2D position;$/;"	m	class:TransformComponent
 print_args	ECS/ECS.h	/^  void print_args(TArgs&&... mArgs)$/;"	f	class:Entity
@@ -87,18 +98,25 @@ render	Game.cc	/^void Game::render()$/;"	f	class:Game
 renderer	Game.cc	/^SDL_Renderer* Game::renderer = nullptr;$/;"	m	class:Game	file:
 renderer	Game.hpp	/^  static SDL_Renderer* renderer;$/;"	m	class:Game
 running	Game.hpp	/^  bool running() { return is_running; }$/;"	f	class:Game
+scale	ECS/TransformComponent.h	/^  int scale = 1;$/;"	m	class:TransformComponent
 set_texture	ECS/SpriteComponent.h	/^  void set_texture(const char* path)$/;"	f	class:SpriteComponent
 source	Map.hpp	/^  SDL_Rect source, destination;$/;"	m	class:Map
 source_rectangle	ECS/SpriteComponent.h	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:SpriteComponent
 source_rectangle	GameObject.hpp	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:GameObject
+speed	ECS/TransformComponent.h	/^  int speed = 3;$/;"	m	class:TransformComponent
 subtract	Vector2D.cc	/^Vector2D& Vector2D::subtract(const Vector2D& vec)$/;"	f	class:Vector2D
+tag	ECS/ColliderComponent.h	/^  std::string tag;$/;"	m	class:ColliderComponent
 texture	ECS/SpriteComponent.h	/^  SDL_Texture* texture;$/;"	m	class:SpriteComponent
+transform	ECS/ColliderComponent.h	/^  TransformComponent* transform;$/;"	m	class:ColliderComponent
+transform	ECS/KeyboardController.h	/^  TransformComponent *transform;$/;"	m	class:KeyboardController
 transform	ECS/SpriteComponent.h	/^  TransformComponent* transform;$/;"	m	class:SpriteComponent
 update	ECS/ECS.h	/^  virtual void update() {}$/;"	f	class:Component
 update	ECS/ECS.h	/^  void update()$/;"	f	class:Entity
 update	ECS/ECS.h	/^  void update()$/;"	f	class:Manager
 update	Game.cc	/^void Game::update()$/;"	f	class:Game
+velocity	ECS/TransformComponent.h	/^  Vector2D velocity;$/;"	m	class:TransformComponent
 water	Map.hpp	/^  SDL_Texture* water;$/;"	m	class:Map
+width	ECS/TransformComponent.h	/^  int width = 32;$/;"	m	class:TransformComponent
 window	Game.hpp	/^  SDL_Window *window;$/;"	m	class:Game
 x	Vector2D.h	/^  float x;$/;"	m	class:Vector2D
 x_position	GameObject.hpp	/^  int x_position;$/;"	m	class:GameObject
@@ -108,3 +126,4 @@ y_position	GameObject.hpp	/^  int y_position;$/;"	m	class:GameObject
 ~Game	Game.cc	/^Game::~Game()$/;"	f	class:Game
 ~GameObject	GameObject.cc	/^GameObject::~GameObject()$/;"	f	class:GameObject
 ~Map	Map.cc	/^Map::~Map()$/;"	f	class:Map
+~SpriteComponent	ECS/SpriteComponent.h	/^  ~SpriteComponent()$/;"	f	class:SpriteComponent
