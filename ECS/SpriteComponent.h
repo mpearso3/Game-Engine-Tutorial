@@ -37,8 +37,8 @@ public:
   }
   void update() override
   {
-    destination_rectangle.x = (int)transform->position.x;
-    destination_rectangle.y = (int)transform->position.y;
+    destination_rectangle.x = static_cast<int>(transform->position.x);
+    destination_rectangle.y = static_cast<int>(transform->position.y);
     destination_rectangle.w = transform->width * transform->scale;
     destination_rectangle.h = transform->height * transform->scale;
   }
