@@ -8,6 +8,7 @@ Map* map;
 Manager manager;
 
 auto& player(manager.add_entity());
+SDL_Event Game::event;
 
 SDL_Renderer* Game::renderer = nullptr;
 
@@ -55,20 +56,31 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
 
   player.add_component<TransformComponent>();
   player.add_component<SpriteComponent>("assets/player.png");
+  player.add_component<KeyboardController>();
 }
 
 void Game::handle_events()
 {
-  SDL_Event event;
   SDL_PollEvent(&event);
   switch (event.type)
   {
     case SDL_QUIT:
       is_running = false;
       break;
-
     default:
       break;
+  }
+
+  if(event.type == SDL_KEYDOWN) 
+  {
+    switch(event.key.keysym.sym)
+    {
+      case SDLK_ESCAPE:
+        is_running = false;
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -76,12 +88,6 @@ void Game::update()
 {
   manager.refresh();
   manager.update();
-
-  player.get_component<TransformComponent>().position.add(Vector2D(10, 0));
-
-  if(player.get_component<TransformComponent>().position.x > 100) {
-    player.get_component<SpriteComponent>().set_texture("assets/dirt.png");
-  }
 }
 
 void Game::render()
