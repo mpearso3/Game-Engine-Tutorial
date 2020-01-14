@@ -13,7 +13,12 @@ ColliderComponent	ECS/ColliderComponent.h	/^class ColliderComponent : public Com
 Collision	Collision.h	/^class Collision$/;"	c
 Component	ECS/ECS.h	/^class Component$/;"	c
 Draw	TextureManager.cc	/^void TextureManager::Draw(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination)$/;"	f	class:TextureManager
+Entity	ECS/ECS.h	/^  Entity(Manager& mManager) : manager(mManager) {}$/;"	f	class:Entity
 Entity	ECS/ECS.h	/^class Entity$/;"	c
+GROUP_COLLIDERS	Game.cc	/^  GROUP_COLLIDERS$/;"	e	enum:std::size_t	file:
+GROUP_ENEMIES	Game.cc	/^  GROUP_ENEMIES,$/;"	e	enum:std::size_t	file:
+GROUP_MAP	Game.cc	/^  GROUP_MAP,$/;"	e	enum:std::size_t	file:
+GROUP_PLAYERS	Game.cc	/^  GROUP_PLAYERS,$/;"	e	enum:std::size_t	file:
 Game	Game.cc	/^Game::Game()$/;"	f	class:Game
 Game	Game.hpp	/^class Game$/;"	c
 GameObject	GameObject.cc	/^GameObject::GameObject(const char* texture_sheet, int x, int y)$/;"	f	class:GameObject
@@ -24,7 +29,7 @@ LoadTexture	TextureManager.cc	/^SDL_Texture* TextureManager::LoadTexture(const c
 Manager	ECS/ECS.h	/^class Manager$/;"	c
 Map	Map.cc	/^Map::Map()$/;"	f	class:Map
 Map	Map.hpp	/^class Map$/;"	c
-OBJS	makefile	/^OBJS = main.cc Game.cc TextureManager.cc GameObject.cc Map.cc Vector2D.cc Collision.cc$/;"	m
+OBJS	makefile	/^OBJS = main.cc Game.cc TextureManager.cc GameObject.cc Map.cc Vector2D.cc Collision.cc ECS\/ECS.cc$/;"	m
 OBJ_NAME	makefile	/^OBJ_NAME = main $/;"	m
 Render	GameObject.cc	/^void GameObject::Render()$/;"	f	class:GameObject
 SpriteComponent	ECS/SpriteComponent.h	/^  SpriteComponent(const char* path)$/;"	f	class:SpriteComponent
@@ -45,7 +50,9 @@ active	ECS/ECS.h	/^  bool active = true;$/;"	m	class:Entity
 add	Vector2D.cc	/^Vector2D& Vector2D::add(const Vector2D& vec)$/;"	f	class:Vector2D
 add_component	ECS/ECS.h	/^  T& add_component(TArgs&&... mArgs)$/;"	f	class:Entity
 add_entity	ECS/ECS.h	/^  Entity& add_entity()$/;"	f	class:Manager
-add_tile	Game.cc	/^void add_tile(int id, int x, int y)$/;"	f
+add_group	ECS/ECS.cc	/^void Entity::add_group(Group mGroup)$/;"	f	class:Entity
+add_tile	Game.cc	/^void Game::add_tile(int id, int x, int y)$/;"	f	class:Game
+add_to_group	ECS/ECS.h	/^  void add_to_group(Entity* mEntity, Group mGroup)$/;"	f	class:Manager
 clean	Game.cc	/^void Game::clean()$/;"	f	class:Game
 collider	ECS/ColliderComponent.h	/^  SDL_Rect collider;$/;"	m	class:ColliderComponent
 colliders	Game.cc	/^std::vector<ColliderComponent*> Game::colliders;$/;"	m	class:Game	file:
@@ -54,6 +61,7 @@ component_array	ECS/ECS.h	/^  ComponentArray component_array;$/;"	m	class:Entity
 component_bitset	ECS/ECS.h	/^  ComponentBitSet component_bitset;$/;"	m	class:Entity
 components	ECS/ECS.h	/^  std::vector<std::unique_ptr<Component>> components;$/;"	m	class:Entity
 counter	Game.hpp	/^  int counter;$/;"	m	class:Game
+delete_group	ECS/ECS.h	/^  void delete_group(Group mGroup)$/;"	f	class:Entity
 destination_rectangle	ECS/SpriteComponent.h	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:SpriteComponent
 destination_rectangle	GameObject.hpp	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:GameObject
 destroy	ECS/ECS.h	/^  void destroy() { active = false; }$/;"	f	class:Entity
@@ -67,9 +75,13 @@ event	Game.cc	/^SDL_Event Game::event;$/;"	m	class:Game	file:
 event	Game.hpp	/^  static SDL_Event event;$/;"	m	class:Game
 game	main.cc	/^Game *game = NULL;$/;"	v
 get_component	ECS/ECS.h	/^  T& get_component() const$/;"	f	class:Entity
-get_component_type_id	ECS/ECS.h	/^inline ComponentID get_component_type_id()$/;"	f
+get_group	ECS/ECS.h	/^  std::vector<Entity*>& get_group(Group mGroup)$/;"	f	class:Manager
+get_new_component_type_id	ECS/ECS.h	/^inline ComponentID get_new_component_type_id()$/;"	f
+group_bitset	ECS/ECS.h	/^  GroupBitSet group_bitset;$/;"	m	class:Entity
+grouped_entities	ECS/ECS.h	/^  std::array<std::vector<Entity*>, max_groups> grouped_entities;$/;"	m	class:Manager
 handle_events	Game.cc	/^void Game::handle_events()$/;"	f	class:Game
 has_components	ECS/ECS.h	/^  bool has_components() const$/;"	f	class:Entity
+has_group	ECS/ECS.h	/^  bool has_group(Group mGroup)$/;"	f	class:Entity
 height	ECS/TransformComponent.h	/^  int height = 32;$/;"	m	class:TransformComponent
 init	ECS/ECS.h	/^  virtual void init() {}$/;"	f	class:Component
 init	Game.cc	/^void Game::init(const char* title, int x_position, int y_position, int width, int height, bool full_screen)$/;"	f	class:Game
@@ -77,9 +89,11 @@ is_active	ECS/ECS.h	/^  bool is_active() const { return active; }$/;"	f	class:En
 is_running	Game.hpp	/^  bool is_running;$/;"	m	class:Game
 load_map	Map.cc	/^void Map::load_map(std::string path, int size_x, int size_y)$/;"	f	class:Map
 main	main.cc	/^int main(int argc, char const** argv)$/;"	f
+manager	ECS/ECS.h	/^  Manager& manager;$/;"	m	class:Entity
 manager	Game.cc	/^Manager manager;$/;"	v
 map	Game.cc	/^Map* map;$/;"	v
 max_components	ECS/ECS.h	/^constexpr std::size_t max_components = 32;$/;"	v
+max_groups	ECS/ECS.h	/^constexpr std::size_t max_groups = 32;$/;"	v
 multiply	Vector2D.cc	/^Vector2D& Vector2D::multiply(const Vector2D& vec)$/;"	f	class:Vector2D
 object_texture	GameObject.hpp	/^  SDL_Texture* object_texture;$/;"	m	class:GameObject
 operator *	Vector2D.cc	/^Vector2D& Vector2D::operator*(const int& i)$/;"	f	class:Vector2D
@@ -102,6 +116,7 @@ renderer	Game.hpp	/^  static SDL_Renderer* renderer;$/;"	m	class:Game
 running	Game.hpp	/^  bool running() { return is_running; }$/;"	f	class:Game
 scale	ECS/TransformComponent.h	/^  int scale = 1;$/;"	m	class:TransformComponent
 set_texture	ECS/SpriteComponent.h	/^  void set_texture(const char* path)$/;"	f	class:SpriteComponent
+size_t	Game.cc	/^enum group_labels : std::size_t$/;"	g	class:std	file:
 source_rectangle	ECS/SpriteComponent.h	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:SpriteComponent
 source_rectangle	GameObject.hpp	/^  SDL_Rect source_rectangle, destination_rectangle;$/;"	m	class:GameObject
 speed	ECS/TransformComponent.h	/^  int speed = 3;$/;"	m	class:TransformComponent

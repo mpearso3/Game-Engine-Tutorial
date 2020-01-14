@@ -15,6 +15,14 @@ std::vector<ColliderComponent*> Game::colliders;
 SDL_Event Game::event;
 SDL_Renderer* Game::renderer = nullptr;
 
+enum group_labels : std::size_t
+{
+  GROUP_MAP,
+  GROUP_PLAYERS,
+  GROUP_ENEMIES,
+  GROUP_COLLIDERS
+};
+
 Game::Game()
 {
 }
@@ -57,17 +65,18 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
 
   map = new Map();
 
-  //Map::load_map("assets/pxyel_16x16.map", 16, 16);
   Map::load_map("assets/pxyel_16x16.map", 16, 16);
 
   player.add_component<TransformComponent>(2);
   player.add_component<SpriteComponent>("assets/player.png");
   player.add_component<KeyboardController>();
   player.add_component<ColliderComponent>("player");
+  player.add_group(GROUP_PLAYERS);
 
   wall.add_component<TransformComponent>(300.0, 300.0, 300, 20, 1);
   wall.add_component<SpriteComponent>("assets/dirt.png");
   wall.add_component<ColliderComponent>("wall");
+  wall.add_group(GROUP_MAP);
 }
 
 void Game::handle_events()
@@ -103,17 +112,25 @@ void Game::update()
   for(auto& collider_component : colliders)
   {
     Collision::AABB(player.get_component<ColliderComponent>(), *collider_component);
-    //if(Collision::AABB(player.get_component<ColliderComponent>().collider, wall.get_component<ColliderComponent>().collider)) {
-      //player.get_component<TransformComponent>().scale = 1;
-      //player.get_component<TransformComponent>().velocity * -1;
-    //}
   }
 }
+
+auto& tiles(manager.get_group(GROUP_MAP));
+auto& players(manager.get_group(GROUP_PLAYERS));
+auto& enemies(manager.get_group(GROUP_ENEMIES));
 
 void Game::render()
 {
   SDL_RenderClear(renderer);
-  manager.draw();
+  for(auto& t : tiles) {
+    t->draw();
+  }
+  for(auto& p : players) {
+    p->draw();
+  }
+  for(auto& e : enemies) {
+    e->draw();
+  }
   SDL_RenderPresent(renderer);
 }
 
@@ -129,4 +146,5 @@ void Game::add_tile(int id, int x, int y)
 {
   auto& tile(manager.add_entity());  
   tile.add_component<TileComponent>(x, y, 32, 32, id);
+  tile.add_group(GROUP_MAP);
 }
