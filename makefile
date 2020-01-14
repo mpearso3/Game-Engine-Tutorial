@@ -23,4 +23,5 @@ clean:
 	rm $(OBJ_NAME)
 
 tags: $(SRCS) makefile
+	rm tags
 	-ctags -R

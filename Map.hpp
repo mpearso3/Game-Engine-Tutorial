@@ -1,6 +1,5 @@
 #pragma once
-
-#include "Game.hpp"
+#include <string>
 
 class Map
 {
@@ -8,15 +7,7 @@ public:
   Map();
   ~Map();
 
-  void load_map(int arr[20][25]);
-  void draw_map();
+  static void load_map(std::string path, int size_x, int size_y);
 
 private:
-  SDL_Rect source, destination;
-
-  SDL_Texture* dirt;
-  SDL_Texture* grass;
-  SDL_Texture* water;
-
-  int map[20][25];
 };

@@ -33,7 +33,7 @@ public:
 
     source_rectangle.x = source_rectangle.y = 0;
     source_rectangle.w = transform->width;
-    source_rectangle.h = transform->width;
+    source_rectangle.h = transform->height;
   }
   void update() override
   {

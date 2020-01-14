@@ -10,9 +10,6 @@ Manager manager;
 
 auto& player(manager.add_entity());
 auto& wall(manager.add_entity());
-auto& tile_0(manager.add_entity());
-auto& tile_1(manager.add_entity());
-auto& tile_2(manager.add_entity());
 
 std::vector<ColliderComponent*> Game::colliders;
 SDL_Event Game::event;
@@ -60,6 +57,9 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
 
   map = new Map();
 
+  //Map::load_map("assets/pxyel_16x16.map", 16, 16);
+  Map::load_map("assets/pxyel_16x16.map", 16, 16);
+
   player.add_component<TransformComponent>(2);
   player.add_component<SpriteComponent>("assets/player.png");
   player.add_component<KeyboardController>();
@@ -68,14 +68,6 @@ void Game::init(const char* title, int x_position, int y_position, int width, in
   wall.add_component<TransformComponent>(300.0, 300.0, 300, 20, 1);
   wall.add_component<SpriteComponent>("assets/dirt.png");
   wall.add_component<ColliderComponent>("wall");
-
-  tile_0.add_component<TileComponent>(200, 200, 32, 32, 0);
-
-  tile_1.add_component<TileComponent>(250, 250, 32, 32, 1);
-  tile_1.add_component<ColliderComponent>("dirt");
-
-  tile_2.add_component<TileComponent>(150, 150, 32, 32, 2);
-  tile_2.add_component<ColliderComponent>("grass");
 }
 
 void Game::handle_events()
@@ -121,7 +113,6 @@ void Game::update()
 void Game::render()
 {
   SDL_RenderClear(renderer);
-  //map->draw_map();
   manager.draw();
   SDL_RenderPresent(renderer);
 }
@@ -132,4 +123,10 @@ void Game::clean()
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
   std::cout << "Game Cleaned" << std::endl;
+}
+
+void Game::add_tile(int id, int x, int y)
+{
+  auto& tile(manager.add_entity());  
+  tile.add_component<TileComponent>(x, y, 32, 32, id);
 }
